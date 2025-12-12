@@ -5,14 +5,36 @@ import dash_bootstrap_components as dbc
 navbar = html.Div(
     [
         dbc.Navbar(
-            dbc.NavbarBrand(
-                "MoS2-Image-Synthesis-Analysis-Platform", #Name of the Application
-                className="navbar-title mx-auto"          #Center the Tittle
+            dbc.Container(
+                [
+                    html.Div(
+                        [
+                            html.I(className="", style={
+                                "fontSize": "24px", 
+                                "marginRight": "12px",
+                                "color": "#a78bfa"
+                            }),
+                            html.Span("MoS₂", style={
+                                "fontWeight": "700",
+                                "fontSize": "22px",
+                                "color": "#a78bfa"
+                            }),
+                            html.Span(" Image Synthesis Platform", style={
+                                "fontWeight": "600",
+                                "fontSize": "20px",
+                                "color": "#f0f0f5",
+                                "marginLeft": "4px"
+                            }),
+                        ],
+                        style={"display": "flex", "alignItems": "center"}
+                    )
+                ],
+                fluid=True,
+                style={"display": "flex", "justifyContent": "center", "alignItems": "center"}
             ),
-            className="navbar-custom shadow-sm py-3",     #Style of the Navbar
-            color="light",                               
-            dark=False
+            className="navbar-custom",
+            dark=True
         ),
-        html.Hr(className="navbar-separator")  # Separator line below navbar
+        html.Hr(className="navbar-separator")
     ]
 )
