@@ -7,7 +7,7 @@ sidebar = html.Div(
         # Sidebar Header
         html.Div(
             [
-                html.I(className="fas fa-atom sidebar-icon"),
+                html.I(className=""),
                 html.Span("Functionalities", className="sidebar-header-text")
             ],
             className="sidebar-header"
@@ -23,6 +23,7 @@ sidebar = html.Div(
                         html.I(className="fas fa-microscope sidebar-item-icon"),
                         html.Span("XYZ/Parameter File Generation", className="sidebar-item-text")
                     ],
+                    id="nav-xyz-generation",
                     className="sidebar-item active-sidebar-item"
                 ),
                 html.Div(
@@ -30,6 +31,7 @@ sidebar = html.Div(
                         html.I(className="fas fa-wrench sidebar-item-icon"),
                         html.Span("Pre-Proccesing", className="sidebar-item-text")
                     ],
+                    id="nav-pre-processing",
                     className="sidebar-item"
                 ),
                 html.Div(
@@ -37,6 +39,7 @@ sidebar = html.Div(
                         html.I(className="fas fa-image sidebar-item-icon"),
                         html.Span("STEM-Generation", className="sidebar-item-text")
                     ],
+                    id="nav-stem-generation",
                     className="sidebar-item"
                 ),
                 html.Div(
@@ -44,6 +47,7 @@ sidebar = html.Div(
                         html.I(className="fas fa-gear sidebar-item-icon"),
                         html.Span("ResUnet For Vacancies and Polymorphs", className="sidebar-item-text")
                     ],
+                    id="nav-resunet",
                     className="sidebar-item"
                 ),
             ],

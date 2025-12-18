@@ -1,8 +1,14 @@
+''''                                                Imports                                                            '''
+##########################################################################################################################
+# Essential/Base Imports 
+##########################################################################################################################
 from dash import Dash, html, Input, Output, State, dcc
 import dash_bootstrap_components as dbc
 import dash
 
-
+##########################################################################################################################
+# Imports for XYZ/Params Generation page 
+##########################################################################################################################
 #First Tab Components
 from UIComponents.Navbar import navbar
 from UIComponents.Sidebar import sidebar
@@ -11,64 +17,175 @@ from UIComponents.MaterialProperties import material_properties
 from UIComponents.MaterialProperties2 import metal_site_defects
 from UIComponents.MaterialProperties3 import chalcogen_site_defects
 from UIComponents.SettingsGeneration import generation_settings
-
 #Second Tab Components 
 from UIComponents.BasicMicroscopeSettings import Microscope_Settings
 from UIComponents.aberrationCoeficcients import Abberation_Coeficients
 from UIComponents.ADF_Settings import ADF_Settings
 from UIComponents.GaussianParameters import Gaussian_Parameters
-
 # Callback For Display Vallues Collumn 
 from UIComponents.DisplayValues import register_display_values_callback
-
 # Import Generation module to update variables
 from Generation_Stem import Generation
 
 
-# 0-Main UI Layout
-app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP, "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"])
 
-app.layout = html.Div([
-    navbar,
-    
-    html.Div(
+''''                                                Main UI Work                                                            '''
+##########################################################################################################################
+#                                          0- ALL Modules/Options 
+##########################################################################################################################
+
+
+"""Content for XYZ/Parameter File Generation page"""
+def xyz_generation_page():
+    return html.Div(
         [
-            # Sidebar on the left
-            sidebar,
-            
-            # Main content area
+            # Left side - Tabs and parameter panels
             html.Div(
                 [
-                    # Left side - Tabs and parameter panels
-                    html.Div(
-                        [
-                            left_tabs(),
+                    left_tabs(),
 
-                            #Material Section Panels 
-                            material_properties(),
-                            metal_site_defects(),
-                            chalcogen_site_defects(),
+                    #Material Section Panels 
+                    material_properties(),
+                    metal_site_defects(),
+                    chalcogen_site_defects(),
 
-                            #Microscope Section Panels
-                            Microscope_Settings(),
-                            Abberation_Coeficients(),
-                            ADF_Settings(),
-                            Gaussian_Parameters(),
-                        ],
-                        className="tab-with-panel"
-                    ),
-                    # Right side - Generation settings and config
-                    generation_settings()
+                    #Microscope Section Panels
+                    Microscope_Settings(),
+                    Abberation_Coeficients(),
+                    ADF_Settings(),
+                    Gaussian_Parameters(),
                 ],
-                className="main-content"
+                className="tab-with-panel"
+            ),
+            # Right side - Generation settings and config
+            generation_settings()
+        ],
+        className="main-content"
+    )
+
+"""Content for Pre-Processing page"""
+def pre_processing_page():
+    return html.Div(
+        [
+            html.Div(
+                [
+                    html.I(className="fas fa-wrench", style={"fontSize": "48px", "color": "var(--accent)", "marginBottom": "20px"}),
+                    html.H2("Pre-Processing", style={"color": "var(--text-primary)", "marginBottom": "12px"}),
+                    html.P("Pre-processing tools and utilities will be available here.", 
+                           style={"color": "var(--text-secondary)", "fontSize": "15px"})
+                ],
+                className="page-placeholder"
             )
+        ],
+        className="main-content"
+    )
+
+"""Content for STEM-Generation page"""
+def stem_generation_page():
+    return html.Div(
+        [
+            html.Div(
+                [
+                    html.I(className="fas fa-image", style={"fontSize": "48px", "color": "var(--accent)", "marginBottom": "20px"}),
+                    html.H2("STEM Generation", style={"color": "var(--text-primary)", "marginBottom": "12px"}),
+                    html.P("STEM image generation tools will be available here.", 
+                           style={"color": "var(--text-secondary)", "fontSize": "15px"})
+                ],
+                className="page-placeholder"
+            )
+        ],
+        className="main-content"
+    )
+
+"""Content for ResUnet page"""
+def resunet_page():
+    return html.Div(
+        [
+            html.Div(
+                [
+                    html.I(className="fas fa-gear", style={"fontSize": "48px", "color": "var(--accent)", "marginBottom": "20px"}),
+                    html.H2("ResUnet For Vacancies and Polymorphs", style={"color": "var(--text-primary)", "marginBottom": "12px"}),
+                    html.P("ResUnet analysis tools will be available here.", 
+                           style={"color": "var(--text-secondary)", "fontSize": "15px"})
+                ],
+                className="page-placeholder"
+            )
+        ],
+        className="main-content"
+    )
+
+
+##########################################################################################################################
+#                                          1- Main Layout
+##########################################################################################################################
+
+app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP, "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"])
+app.layout = html.Div([
+    dcc.Store(id='current-page', data='xyz-generation'),     # Store for current page
+    navbar,
+    html.Div(
+        [
+            sidebar, # Sidebar on the left
+            html.Div(id='page-content', children=xyz_generation_page()) # Main content area 
+
         ],
         className="section-container"
     )
 ])
 
 
-# 1-Functions for Interactivity
+
+##########################################################################################################################
+#                                         2- Interactivity(1st) -- Sidebar Page Selection
+##########################################################################################################################
+# Sidebar Navigation Callback
+@app.callback(
+    Output("page-content", "children"),
+    Output("nav-xyz-generation", "className"),
+    Output("nav-pre-processing", "className"),
+    Output("nav-stem-generation", "className"),
+    Output("nav-resunet", "className"),
+    Input("nav-xyz-generation", "n_clicks"),
+    Input("nav-pre-processing", "n_clicks"),
+    Input("nav-stem-generation", "n_clicks"),
+    Input("nav-resunet", "n_clicks"),
+    prevent_initial_call=True
+)
+def navigate_pages(xyz_clicks, pre_clicks, stem_clicks, resunet_clicks):
+    ctx = dash.callback_context.triggered_id
+    # Base classes for sidebar items
+    active_class = "sidebar-item active-sidebar-item"
+    inactive_class = "sidebar-item"
+    if ctx == "nav-xyz-generation":
+        return (
+            xyz_generation_page(),
+            active_class, inactive_class, inactive_class, inactive_class
+        )
+    elif ctx == "nav-pre-processing":
+        return (
+            pre_processing_page(),
+            inactive_class, active_class, inactive_class, inactive_class
+        )
+    elif ctx == "nav-stem-generation":
+        return (
+            stem_generation_page(),
+            inactive_class, inactive_class, active_class, inactive_class
+        )
+    elif ctx == "nav-resunet":
+        return (
+            resunet_page(),
+            inactive_class, inactive_class, inactive_class, active_class
+        )
+    # Default - XYZ Generation
+    return (
+        xyz_generation_page(),
+        active_class, inactive_class, inactive_class, inactive_class
+    )
+
+##########################################################################################################################
+#                        2- Interactivity(2nd) -- XYZ Page Interactivity(default): toggle_buttons
+##########################################################################################################################
+
 
 # On/Off Button Functionality
 @app.callback(
@@ -143,8 +260,12 @@ def toggle_buttons(material_clicks, microscope_clicks):
             visible   # Gaussian
         )
 
+##########################################################################################################################
+#                               2-  Interactivity(3rd) -- Send inputs to the Generation Module
+##########################################################################################################################
 
-# 2-Store UI inputs directly to Generation.py variables
+
+
 @app.callback(
     Output('generate-btn', 'n_clicks'),
     Input('generate-btn', 'n_clicks'),
@@ -246,13 +367,8 @@ def store_parameters_RunGeneration(n_clicks, batch_size, mat_name, pixel_size, m
     Generation.dwell_time = float(dwell_time)
     # Run the generation process with batch_size
     Generation.run_generation(int(batch_size))
-    
     return n_clicks
-
-
 # Register display values callback
 register_display_values_callback(app)
-
-
 if __name__ == "__main__":
     app.run(debug=True)
