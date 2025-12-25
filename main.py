@@ -10,33 +10,33 @@ import dash
 # Imports for XYZ/Params Generation page 
 ##########################################################################################################################
 #First Tab Components
-from UIComponents.Navbar import navbar
-from UIComponents.Sidebar import sidebar
-from UIComponents.tabs import left_tabs
-from UIComponents.MaterialProperties import material_properties
-from UIComponents.MaterialProperties2 import metal_site_defects
-from UIComponents.MaterialProperties3 import chalcogen_site_defects
-from UIComponents.SettingsGeneration import generation_settings
+from UIComponents_MainUI.Navbar import navbar
+from UIComponents_MainUI.Sidebar import sidebar
+from UIComponents_MainUI.tabs import left_tabs
+from UIComponents_MainUI.MaterialProperties import material_properties
+from UIComponents_MainUI.MaterialProperties2 import metal_site_defects
+from UIComponents_MainUI.MaterialProperties3 import chalcogen_site_defects
+from UIComponents_MainUI.SettingsGeneration import generation_settings
 #Second Tab Components 
-from UIComponents.BasicMicroscopeSettings import Microscope_Settings
-from UIComponents.aberrationCoeficcients import Abberation_Coeficients
-from UIComponents.ADF_Settings import ADF_Settings
-from UIComponents.GaussianParameters import Gaussian_Parameters
+from UIComponents_MainUI.BasicMicroscopeSettings import Microscope_Settings
+from UIComponents_MainUI.aberrationCoeficcients import Abberation_Coeficients
+from UIComponents_MainUI.ADF_Settings import ADF_Settings
+from UIComponents_MainUI.GaussianParameters import Gaussian_Parameters
 # Callback For Display Vallues Collumn 
-from UIComponents.DisplayValues import register_display_values_callback
-# Import Generation module to update variables
-from XYZ_Params_Generation import Generation
+from UIComponents_MainUI.DisplayValues import register_display_values_callback
 
 ##########################################################################################################################
 # Imports for STEM-Generation page 
 ##########################################################################################################################
 import importlib
-#  import the FileInputPanel module from UIComponents-2 directory
-FileInputPanel = importlib.import_module("UIComponents-2.FileInputPanel") 
+#  import the Generation module from 1-)XYZ_Params_Generation directory
+Generation = importlib.import_module("1-)XYZ_Params_Generation.Generation")
+#  import the FileInputPanel module from UIComponents-StemGeneration directory
+FileInputPanel = importlib.import_module("UIComponents_StemGeneration.FileInputPanel") 
 # Extract the file_input_panel function/component from the imported module
 file_input_panel = FileInputPanel.file_input_panel
-#  import the FileInputCallbacks module from UIComponents-2 directory
-FileInputCallbacks = importlib.import_module("UIComponents-2.FileInputCallbacks")
+#  import the FileInputCallbacks module from UIComponents-StemGeneration directory
+FileInputCallbacks = importlib.import_module("UIComponents_StemGeneration.FileInputCallbacks")
 # Extract the register_file_upload_callbacks function from the imported module
 register_file_upload_callbacks = FileInputCallbacks.register_file_upload_callbacks
 # In resume: we import the file input panel UI component and its associated callbacks so we can use them in the STEM-Generation section.
