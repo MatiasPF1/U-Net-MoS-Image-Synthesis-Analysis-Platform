@@ -1,5 +1,11 @@
 from dash import Input, Output, html
 
+# This function is a transformer function, Will Handle None or Empty values and convert them to "0"
+def format_value(value): 
+    if value is None or value == "":
+        return "0"
+    return str(value)
+
 
 def register_display_values_callback(app):    
     @app.callback(
@@ -50,54 +56,54 @@ def register_display_values_callback(app):
         
         # Material Properties Section
         rows.append(html.Div([html.H6("Material Properties", style={"fontWeight": "bold", "marginTop": "15px"})]))
-        rows.append(html.Div([html.Span("Material Name: "), html.Span(mat_name or "-", className="value-text")], className="value-row"))
-        rows.append(html.Div([html.Span("Pixel Size: "), html.Span(pixel_size or "-", className="value-text")], className="value-row"))
-        rows.append(html.Div([html.Span("Metal Atom #: "), html.Span(metal_atom or "-", className="value-text")], className="value-row"))
-        rows.append(html.Div([html.Span("Lattice Constant: "), html.Span(lattice_const or "-", className="value-text")], className="value-row"))
-        rows.append(html.Div([html.Span("Image Size: "), html.Span(img_size or "-", className="value-text")], className="value-row"))
-        rows.append(html.Div([html.Span("Chalcogen Atom #: "), html.Span(chal_atom or "-", className="value-text")], className="value-row"))
+        rows.append(html.Div([html.Span("Material Name: "), html.Span(format_value(mat_name), className="value-text")], className="value-row"))
+        rows.append(html.Div([html.Span("Pixel Size: "), html.Span(format_value(pixel_size), className="value-text")], className="value-row"))
+        rows.append(html.Div([html.Span("Metal Atom #: "), html.Span(format_value(metal_atom), className="value-text")], className="value-row"))
+        rows.append(html.Div([html.Span("Lattice Constant: "), html.Span(format_value(lattice_const), className="value-text")], className="value-row"))
+        rows.append(html.Div([html.Span("Image Size: "), html.Span(format_value(img_size), className="value-text")], className="value-row"))
+        rows.append(html.Div([html.Span("Chalcogen Atom #: "), html.Span(format_value(chal_atom), className="value-text")], className="value-row"))
         
         # Metal Site Defects
         rows.append(html.Div([html.H6("Metal Site Defects", style={"fontWeight": "bold", "marginTop": "15px"})]))
-        rows.append(html.Div([html.Span("Sub. Atom #: "), html.Span(sub_atom_metal or "-", className="value-text")], className="value-row"))
-        rows.append(html.Div([html.Span("Sub. Conc: "), html.Span(metal_sub_conc or "-", className="value-text")], className="value-row"))
-        rows.append(html.Div([html.Span("Vacancy Conc: "), html.Span(metal_vac_conc or "-", className="value-text")], className="value-row"))
+        rows.append(html.Div([html.Span("Sub. Atom #: "), html.Span(format_value(sub_atom_metal), className="value-text")], className="value-row"))
+        rows.append(html.Div([html.Span("Sub. Conc: "), html.Span(format_value(metal_sub_conc), className="value-text")], className="value-row"))
+        rows.append(html.Div([html.Span("Vacancy Conc: "), html.Span(format_value(metal_vac_conc), className="value-text")], className="value-row"))
         
         # Chalcogen Site Defects
         rows.append(html.Div([html.H6("Chalcogen Site Defects", style={"fontWeight": "bold", "marginTop": "15px"})]))
-        rows.append(html.Div([html.Span("Sub. Atom #: "), html.Span(sub_atom_chal or "-", className="value-text")], className="value-row"))
-        rows.append(html.Div([html.Span("Sub. Conc: "), html.Span(chal_sub_conc or "-", className="value-text")], className="value-row"))
-        rows.append(html.Div([html.Span("Vacancy One: "), html.Span(vac_one_conc or "-", className="value-text")], className="value-row"))
-        rows.append(html.Div([html.Span("Vacancy Two: "), html.Span(vac_two_conc or "-", className="value-text")], className="value-row"))
-        rows.append(html.Div([html.Span("Sub. Two: "), html.Span(sub_two_conc or "-", className="value-text")], className="value-row"))
-        rows.append(html.Div([html.Span("Sub. One: "), html.Span(sub_one_conc or "-", className="value-text")], className="value-row"))
+        rows.append(html.Div([html.Span("Sub. Atom #: "), html.Span(format_value(sub_atom_chal), className="value-text")], className="value-row"))
+        rows.append(html.Div([html.Span("Sub. Conc: "), html.Span(format_value(chal_sub_conc), className="value-text")], className="value-row"))
+        rows.append(html.Div([html.Span("Vacancy One: "), html.Span(format_value(vac_one_conc), className="value-text")], className="value-row"))
+        rows.append(html.Div([html.Span("Vacancy Two: "), html.Span(format_value(vac_two_conc), className="value-text")], className="value-row"))
+        rows.append(html.Div([html.Span("Sub. Two: "), html.Span(format_value(sub_two_conc), className="value-text")], className="value-row"))
+        rows.append(html.Div([html.Span("Sub. One: "), html.Span(format_value(sub_one_conc), className="value-text")], className="value-row"))
         
         # Microscope Settings
         rows.append(html.Div([html.H6("Microscope Settings", style={"fontWeight": "bold", "marginTop": "15px"})]))
-        rows.append(html.Div([html.Span("Voltage: "), html.Span(voltage or "-", className="value-text")], className="value-row"))
-        rows.append(html.Div([html.Span("Aperture: "), html.Span(aperture or "-", className="value-text")], className="value-row"))
-        rows.append(html.Div([html.Span("Defocus: "), html.Span(defocus or "-", className="value-text")], className="value-row"))
-        rows.append(html.Div([html.Span("Dwell Time: "), html.Span(dwell_time or "-", className="value-text")], className="value-row"))
+        rows.append(html.Div([html.Span("Voltage: "), html.Span(format_value(voltage), className="value-text")], className="value-row"))
+        rows.append(html.Div([html.Span("Aperture: "), html.Span(format_value(aperture), className="value-text")], className="value-row"))
+        rows.append(html.Div([html.Span("Defocus: "), html.Span(format_value(defocus), className="value-text")], className="value-row"))
+        rows.append(html.Div([html.Span("Dwell Time: "), html.Span(format_value(dwell_time), className="value-text")], className="value-row"))
         
         # Aberration Coefficients
         rows.append(html.Div([html.H6("Aberration Coefficients", style={"fontWeight": "bold", "marginTop": "15px"})]))
-        rows.append(html.Div([html.Span("Cs3 Mean: "), html.Span(cs3_mean or "-", className="value-text")], className="value-row"))
-        rows.append(html.Div([html.Span("Cs3 Std: "), html.Span(cs3_std or "-", className="value-text")], className="value-row"))
-        rows.append(html.Div([html.Span("Cs5 Mean: "), html.Span(cs5_mean or "-", className="value-text")], className="value-row"))
-        rows.append(html.Div([html.Span("Cs5 Std: "), html.Span(cs5_std or "-", className="value-text")], className="value-row"))
+        rows.append(html.Div([html.Span("Cs3 Mean: "), html.Span(format_value(cs3_mean), className="value-text")], className="value-row"))
+        rows.append(html.Div([html.Span("Cs3 Std: "), html.Span(format_value(cs3_std), className="value-text")], className="value-row"))
+        rows.append(html.Div([html.Span("Cs5 Mean: "), html.Span(format_value(cs5_mean), className="value-text")], className="value-row"))
+        rows.append(html.Div([html.Span("Cs5 Std: "), html.Span(format_value(cs5_std), className="value-text")], className="value-row"))
         
         # ADF Settings
         rows.append(html.Div([html.H6("ADF Settings", style={"fontWeight": "bold", "marginTop": "15px"})]))
-        rows.append(html.Div([html.Span("Angle Min: "), html.Span(adf_angle_min or "-", className="value-text")], className="value-row"))
-        rows.append(html.Div([html.Span("Angle Max: "), html.Span(adf_angle_max or "-", className="value-text")], className="value-row"))
+        rows.append(html.Div([html.Span("Angle Min: "), html.Span(format_value(adf_angle_min), className="value-text")], className="value-row"))
+        rows.append(html.Div([html.Span("Angle Max: "), html.Span(format_value(adf_angle_max), className="value-text")], className="value-row"))
         
         # Gaussian Parameters
         rows.append(html.Div([html.H6("Gaussian Parameters", style={"fontWeight": "bold", "marginTop": "15px"})]))
-        rows.append(html.Div([html.Span("Src Size Mean: "), html.Span(src_size_mean or "-", className="value-text")], className="value-row"))
-        rows.append(html.Div([html.Span("Src Size Std: "), html.Span(src_size_std or "-", className="value-text")], className="value-row"))
-        rows.append(html.Div([html.Span("Defoc Spread Mean: "), html.Span(defoc_spread_mean or "-", className="value-text")], className="value-row"))
-        rows.append(html.Div([html.Span("Defoc Spread Std: "), html.Span(defoc_spread_std or "-", className="value-text")], className="value-row"))
-        rows.append(html.Div([html.Span("Probe Cur Mean: "), html.Span(probe_cur_mean or "-", className="value-text")], className="value-row"))
-        rows.append(html.Div([html.Span("Probe Cur Std: "), html.Span(probe_cur_std or "-", className="value-text")], className="value-row"))
+        rows.append(html.Div([html.Span("Src Size Mean: "), html.Span(format_value(src_size_mean), className="value-text")], className="value-row"))
+        rows.append(html.Div([html.Span("Src Size Std: "), html.Span(format_value(src_size_std), className="value-text")], className="value-row"))
+        rows.append(html.Div([html.Span("Defoc Spread Mean: "), html.Span(format_value(defoc_spread_mean), className="value-text")], className="value-row"))
+        rows.append(html.Div([html.Span("Defoc Spread Std: "), html.Span(format_value(defoc_spread_std), className="value-text")], className="value-row"))
+        rows.append(html.Div([html.Span("Probe Cur Mean: "), html.Span(format_value(probe_cur_mean), className="value-text")], className="value-row"))
+        rows.append(html.Div([html.Span("Probe Cur Std: "), html.Span(format_value(probe_cur_std), className="value-text")], className="value-row"))
         
         return rows
