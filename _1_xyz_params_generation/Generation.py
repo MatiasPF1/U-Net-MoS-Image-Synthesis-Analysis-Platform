@@ -7,8 +7,7 @@ import numpy as np
     
 
                                             # XYZ/Parameters
-'''''Default Parameters if the User does not provide any and to avoid errors'''
-#Inputs By the User
+#Inputs By the User, this is just for initialization
 file_name = 0
 pixel_size = 0
 image_size = 0
